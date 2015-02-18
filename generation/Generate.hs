@@ -8,6 +8,7 @@ import qualified Data.HashMap.Lazy as HM
 
 import Language.Haskell.Syntax
 import Language.Haskell.Pretty
+import Language.Haskell.Parser
 
 
 newtype EntityVal = EntityVal { codepoints :: [Integer] } deriving (Show, Eq, Ord)
@@ -17,27 +18,21 @@ instance FromJSON EntityVal where
 main = do
     entFile <- BS.readFile "generation/entities.json"
     let Just entMap = (HM.toList . HM.map codepoints) <$> decode entFile
-    writeFile "src/Text/Html5/Entity/Data.hs" $ prettyPrint $ mkModule entMap
+    ParseOk template <- parseModule <$> readFile "generation/Template.hs"
+    writeFile "src/Text/Html5/Entity/Data.hs" $ prettyPrint $ appendTemplate template entMap
 
 -- | AST generation
-mkModule :: [(String, [Integer])] -> HsModule
-mkModule ents = HsModule noloc (Module "Text.Html5.Entity.Data") Nothing imports (decls ents)
+appendTemplate :: HsModule -> [(String, [Integer])] -> HsModule
+appendTemplate (HsModule srcLoc modName exports imports decls') ents =
+    HsModule srcLoc modName exports imports (decls' ++ decls ents)
 
-imports :: [HsImportDecl]
-imports = [ HsImportDecl noloc (Module "Data.Map") True (Just $ Module "M")
-                         (Just (False, [ HsIVar $ HsIdent "fromList"
-                                       , HsIAbs $ HsIdent "Map"]))
-          , HsImportDecl noloc (Module "Data.Set") True (Just $ Module "S")
-                         (Just (False, [ HsIVar $ HsIdent "fromList"
-                                       , HsIAbs $ HsIdent "Set"]))]
 
 decls :: [(String, [Integer])] -> [HsDecl]
-decls ents = 
-    [ HsTypeSig noloc [HsIdent "entityMap"] (HsQualType [] (HsTyVar (HsIdent "M.Map String [Int]"))) -- This TyVar is invalid but who cares
-    , HsFunBind [HsMatch noloc (HsIdent "entityMap") [] (HsUnGuardedRhs (mkEntityMap ents)) []]
-
-    , HsTypeSig noloc [HsIdent "entitySet"] (HsQualType [] (HsTyVar (HsIdent "S.Set String"))) -- This TyVar is invalid but who cares
-    , HsFunBind [HsMatch noloc (HsIdent "entitySet") [] (HsUnGuardedRhs (mkEntitySet ents)) []]
+decls ents =
+    [ HsFunBind [HsMatch noloc (HsIdent "entityMap") []
+                               (HsUnGuardedRhs (mkEntityMap ents)) []]
+    , HsFunBind [HsMatch noloc (HsIdent "entitySet") []
+                               (HsUnGuardedRhs (mkEntitySet ents)) []]
     ]
 
 mkEntityMap :: [(String, [Integer])] -> HsExp
@@ -53,7 +48,6 @@ mkMapElemTup (name, codes) =
 mkEntitySet :: [(String, [Integer])] -> HsExp
 mkEntitySet ents = HsApp (HsVar $ Qual (Module "S") $ HsIdent "fromList")
                          (HsList $ map (HsLit . HsString . fst) ents)
-
 
 noloc :: SrcLoc
 noloc = SrcLoc "unknown" 0 0

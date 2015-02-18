@@ -1,8 +1,12 @@
 module Text.Html5.Entity.Data where
-import qualified Data.Map as M (fromList, Map)
-import qualified Data.Set as S (fromList, Set)
+import Data.Map (Map)
+import qualified Data.Map as M
+import Data.Set (Set)
+import qualified Data.Set as S
  
-entityMap :: M.Map String [Int]
+entityMap :: Map String [Int]
+ 
+entitySet :: Set String
 entityMap
   = M.fromList
       [("&intlarhk;", [10775]), ("&male;", [9794]), ("&not;", [172]),
@@ -891,8 +895,6 @@ entityMap
        ("&cylcty;", [9005]), ("&cent;", [162]), ("&equivDD;", [10872]),
        ("&nabla;", [8711]), ("&larrsim;", [10611]),
        ("&NegativeVeryThinSpace;", [8203])]
- 
-entitySet :: S.Set String
 entitySet
   = S.fromList
       ["&intlarhk;", "&male;", "&not;", "&clubs;", "&cudarrl;",
