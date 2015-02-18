@@ -3,7 +3,6 @@
 import           Control.Applicative ((<$>))
 import           Data.Aeson
 import qualified Data.ByteString.Lazy as BS
-import           Data.HashMap.Lazy (HashMap)
 import qualified Data.HashMap.Lazy as HM
 
 import Language.Haskell.Syntax
@@ -14,12 +13,15 @@ import Language.Haskell.Parser
 newtype EntityVal = EntityVal { codepoints :: [Integer] } deriving (Show, Eq, Ord)
 instance FromJSON EntityVal where
     parseJSON (Object o) = EntityVal <$> o .: "codepoints"
+    parseJSON _ = error "Not an object"
 
+main :: IO ()
 main = do
     entFile <- BS.readFile "generation/entities.json"
-    let Just entMap = (HM.toList . HM.map codepoints) <$> decode entFile
+    let Just entMap = HM.toList . HM.map codepoints <$> decode entFile
     ParseOk template <- parseModule <$> readFile "generation/Template.hs"
-    writeFile "src/Text/Html5/Entity/Data.hs" $ prettyPrint $ appendTemplate template entMap
+    writeFile "src/Text/Html5/Entity/Data.hs" $ prettyPrint 
+                                              $ appendTemplate template entMap
 
 -- | AST generation
 appendTemplate :: HsModule -> [(String, [Integer])] -> HsModule
@@ -50,4 +52,4 @@ mkEntitySet ents = HsApp (HsVar $ Qual (Module "S") $ HsIdent "fromList")
                          (HsList $ map (HsLit . HsString . fst) ents)
 
 noloc :: SrcLoc
-noloc = SrcLoc "unknown" 0 0
+noloc = SrcLoc "" 0 0
