@@ -5,5 +5,7 @@ import qualified Data.Map as M
 import           Data.Set (Set)
 import qualified Data.Set as S
 
-entityMap :: Map String [Int]
-entitySet :: Set String
+import           Data.Text (Text, pack)
+
+entityMap :: Map Text [Int]
+entitySet :: Set Text
