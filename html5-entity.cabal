@@ -9,6 +9,8 @@ description:         A library for looking up and validating HTML5 entities.
                      You can think of this library as about bindings to the data
                      from that file. For usage see the 'Text.Html5.Entity'
                      module.
+homepage:            https://github.com/zudov/html5-entity/
+bug-reports:         https://github.com/zudov/html5-entity/issues/
 license:             BSD3
 license-file:        LICENSE
 author:              Konstantin Zudov
