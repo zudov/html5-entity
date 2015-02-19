@@ -18,7 +18,8 @@ maintainer:          konstantin@anche.no
 copyright:           (c) Konstantin Zudov, 2015
 category:            Text
 build-type:          Simple
-extra-source-files:  README.md, generate.sh, generation/
+extra-source-files:  README.md, generate.sh, generation/entities.json,
+                     generation/Generate.hs, generation/Template.hs
 cabal-version:       >=1.10
 
 library
