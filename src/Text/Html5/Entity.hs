@@ -44,6 +44,15 @@ entityChars ent = map chr <$> M.lookup ent entityMap
 isValidEntity :: String -> Bool
 isValidEntity ent = S.member ent entitySet
 
+
+nameToEntity :: String -> String
+nameToEntity name = '&' : name ++ ";"
 -- | Given a name of entity looks up code points that represent it.
-{-entityNameCodePoints :: String -> Maybe String-}
-{-entityNameCodePoints = undefined-}
+entityNameCodePoints :: String -> Maybe [Int]
+entityNameCodePoints = entityCodePoints . nameToEntity
+
+entityNameChars :: String -> Maybe String
+entityNameChars = entityChars . nameToEntity
+
+isValidEntityName :: String -> Bool
+isValidEntityName name = S.member (nameToEntity name) entitySet
