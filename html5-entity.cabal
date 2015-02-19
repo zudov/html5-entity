@@ -5,17 +5,18 @@ description:         A library for looking up and validating HTML5 entities.
                      The <http://html.spec.whatwg.org/multipage/entities.json following>
                      document is used as an authoritative source of the valid
                      entity names and their corresponding codepoints.
-                     You can think of the library as about bindings to the data
-                     in that file. For usage see the 'Text.Html5.Entity'
+
+                     You can think of this library as about bindings to the data
+                     from that file. For usage see the 'Text.Html5.Entity'
                      module.
 license:             BSD3
 license-file:        LICENSE
 author:              Konstantin Zudov
 maintainer:          konstantin@anche.no
--- copyright:           
+copyright:           (c) Konstantin Zudov, 2015
 category:            Text
 build-type:          Simple
--- extra-source-files:  
+extra-source-files:  README.md, generate.sh, generation/
 cabal-version:       >=1.10
 
 library
