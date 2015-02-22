@@ -1,4 +1,4 @@
-module Text.Html5.Entity.Data where
+module Text.Html.Entity.Data where
 
 import           Data.Map (Map)
 import qualified Data.Map as M

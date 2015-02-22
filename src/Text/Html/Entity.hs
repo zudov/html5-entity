@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Text.Html5.Entity
+module Text.Html.Entity
     ( -- * Entity lookup
       entityCodePoints
     , entityChars
@@ -19,7 +19,7 @@ import qualified Data.Set as S
 import           Data.Text (Text, pack)
 import           Data.Monoid ((<>))
 
-import Text.Html5.Entity.Data
+import Text.Html.Entity.Data
 
 -- | Given an entity looks up unicode code points that represent it.
 --
