@@ -8,5 +8,5 @@ entity names and their corresponding codepoints.
 You can think of the library as about bindings to the data
 in that file.
 
-For usage see documentation on [Hackage](https://hackage.haskell.org/package/html5-entity/docs/Text-Html5-Entity.html)
+For usage see documentation on [Hackage](https://hackage.haskell.org/package/html5-entity/docs/Text-Html-Entity.html)
 
