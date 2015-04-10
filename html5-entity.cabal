@@ -22,6 +22,10 @@ extra-source-files:  README.md, generate.sh, generation/entities.json,
                      generation/Generate.hs, generation/Template.hs
 cabal-version:       >=1.10
 
+source-repository head
+  type:     git
+  location: https://github.com/zudov/html5-entity/
+
 library
   exposed-modules:     Text.Html.Entity
                        Text.Html.Entity.Data
