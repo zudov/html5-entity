@@ -14,8 +14,8 @@ module Text.Html.Entity
 
 import           Control.Applicative ((<$>))
 import           Data.Char (chr)
-import qualified Data.Map as M
-import qualified Data.Set as S
+import qualified Data.HashMap.Lazy as M
+import qualified Data.HashSet as S
 import           Data.Text (Text, pack)
 import           Data.Monoid ((<>))
 

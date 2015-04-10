@@ -1,11 +1,11 @@
 module Text.Html.Entity.Data where
 
-import           Data.Map (Map)
-import qualified Data.Map as M
-import           Data.Set (Set)
-import qualified Data.Set as S
+import           Data.HashMap.Lazy (HashMap)
+import qualified Data.HashMap.Lazy as M
+import           Data.HashSet (HashSet)
+import qualified Data.HashSet as S
 
 import           Data.Text (Text, pack)
 
-entityMap :: Map Text [Int]
-entitySet :: Set Text
+entityMap :: HashMap Text [Int]
+entitySet :: HashSet Text
